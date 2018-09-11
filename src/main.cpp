@@ -38,7 +38,7 @@ int main(int argc, char const* const argv[])
         {
             std::cerr << msg_prefix << "not exists" << std::endl;
             ++failure_count;
-            break;
+            continue;
         }
 
         std::ifstream in{in_path.generic_u8string(), std::ios::binary};
@@ -46,7 +46,7 @@ int main(int argc, char const* const argv[])
         {
             std::cerr << msg_prefix << "cannot open" << std::endl;
             ++failure_count;
-            break;
+            continue;
         }
 
         ncmdump cracker{std::move(in)};
@@ -55,14 +55,16 @@ int main(int argc, char const* const argv[])
         case ncmdump::failure_t::invalid_ncm_format:
             std::cerr << msg_prefix << "invalid ncm format" << std::endl;
             ++failure_count;
+            continue;
             break;
 
         case ncmdump::failure_t::invalid_metadata:
             std::cerr << msg_prefix << "invalid metadata" << std::endl;
             ++failure_count;
+            continue;
             break;
 
-        default:
+        case ncmdump::failure_t::no_error:
             break;
         }
 
@@ -73,14 +75,14 @@ int main(int argc, char const* const argv[])
         {
             std::cerr << msg_prefix << "dumpfile already exists" << std::endl;
             ++failure_count;
-            break;
+            continue;
         }
         std::ofstream out(out_path.generic_u8string(), std::ios::binary);
         if(!out.good())
         {
             std::cerr << msg_prefix << "cannot create dumpfile" << std::endl;
             ++failure_count;
-            break;
+            continue;
         }
 
         cracker.dump(out);
@@ -97,7 +99,7 @@ int main(int argc, char const* const argv[])
             if(!fs::remove(out_path))
                 std::cerr << msg_prefix << "cannot clean temp" << std::endl;
             ++failure_count;
-            break;
+            continue;
         }
 
         std::cout << "Success: " << in_path << std::endl;
