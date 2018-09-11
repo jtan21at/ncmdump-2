@@ -59,6 +59,8 @@ bool write_tag(const std::string& album,
         tag->addFrame(pic_frame);
         mp3_file.save();
     }
+    else
+        throw std::runtime_error("[write_tag] unknown audio format");
 
     return true;
 }
