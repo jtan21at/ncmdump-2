@@ -41,7 +41,7 @@ int main(int argc, char const* const argv[])
             continue;
         }
 
-        std::ifstream in{in_path.generic_u8string(), std::ios::binary};
+        std::ifstream in{in_path.generic_string(), std::ios::binary};
         if(!in.good())
         {
             std::cerr << msg_prefix << "cannot open" << std::endl;
@@ -77,7 +77,7 @@ int main(int argc, char const* const argv[])
             ++failure_count;
             continue;
         }
-        std::ofstream out(out_path.generic_u8string(), std::ios::binary);
+        std::ofstream out(out_path.generic_string(), std::ios::binary);
         if(!out.good())
         {
             std::cerr << msg_prefix << "cannot create dumpfile" << std::endl;

@@ -19,7 +19,7 @@ bool write_tag(const std::string& album,
 {
     if(auto audio_ext = audio_path.extension(); audio_ext == ".flac")
     {
-        TagLib::FLAC::File flac_file{audio_path.generic_u8string().data()};
+        TagLib::FLAC::File flac_file{audio_path.generic_string().data()};
         if(!flac_file.isValid())
             return false;
         TagLib::StringList artist_list;
@@ -43,7 +43,7 @@ bool write_tag(const std::string& album,
     }
     else if(audio_ext == ".mp3")
     {
-        TagLib::MPEG::File mp3_file{audio_path.generic_u8string().data()};
+        TagLib::MPEG::File mp3_file{audio_path.generic_string().data()};
         if(!mp3_file.isValid())
             return false;
         auto tag = mp3_file.ID3v2Tag(true); // only id3v2 can have a picture frame
