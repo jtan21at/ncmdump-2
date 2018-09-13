@@ -37,11 +37,11 @@ public:
         prepare();
     }
 
-    failure_t failure()& noexcept { return d_failbit; }
+    auto failure()& noexcept { return d_failbit; }
 
     const auto& metadata()& noexcept { return d_meta; }
 
-    const extra_info& extra_info()& noexcept { return d_extra; };
+    const auto& extra_info()& noexcept { return d_extra; };
 
     void dump(std::ostream& os)&;
 };
