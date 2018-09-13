@@ -7,8 +7,6 @@
 
 #include <json/json.h>
 
-std::unique_ptr<std::uint8_t[]> build_key_box(const std::uint8_t* key, int key_len);
-
 struct extra_info
 {
     std::unique_ptr<char[]> img_data;
