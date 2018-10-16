@@ -25,7 +25,7 @@ bool write_tag(const std::string& album,
         TagLib::StringList artist_list;
         for(const auto& ar : artists)
             artist_list.append({ar, TagLib::String::Type::UTF8});
-        TagLib::PropertyMap map;
+        TagLib::PropertyMap map{flac_file.properties()};
         map["ARTIST"] = artist_list;
         map["ALBUM"] = TagLib::String{album, TagLib::String::Type::UTF8};
         map["TITLE"] = TagLib::String{title, TagLib::String::Type::UTF8};
