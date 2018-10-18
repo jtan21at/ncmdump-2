@@ -1,5 +1,13 @@
 # Netease Cloud Music Copyright Protection File Dump
 
+## 置顶
+
+被吐槽代码难懂了😂，接受批评。这个项目是用C++17写的，17的语言特性用的不多，但用了C++17的filesystem库，所以没有匹配17及以上版本的std都可能编译不了。但但但，这个项目的存在意义并不在于“clone→compile”啊！
+
+## Releases有惊喜！！！
+## Releases有惊喜！！！
+## Releases有惊喜！！！
+
 ## **dep**
 ```
 openssl
