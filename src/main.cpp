@@ -9,6 +9,26 @@ void print_help(char const* const argv0)
     std::cout << "Usage: " << fs::path{argv0}.stem() << " file_1 [file_2 ... file_n]" << std::endl;
 }
 
+std::string_view detect_mime(char* data, std::size_t len)
+{
+    using raw_data_type = std::vector<std::uint8_t>;
+    using mime_type = std::string;
+    static std::vector<std::pair<raw_data_type, mime_type>> mime_trait_table{
+        {{0xff, 0xd8, 0xff}, "image/jpeg"},
+        {{0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a}, "image/png"}
+    };
+
+    for(const auto& mt : mime_trait_table)
+    {
+        if(len < mt.first.size())
+            continue;
+        if(!std::memcmp(data, mt.first.data(),  mt.first.size()))
+            return mt.second;
+    }
+
+    return {};
+}
+
 void extract_meta(const Json::Value& meta,
                   std::string& album,
                   std::string& title,
@@ -91,8 +111,9 @@ int main(int argc, char const* const argv[])
         std::string album, title;
         std::vector<std::string> artists;
         extract_meta(cracker.metadata(), album, title, artists);
+        auto cover_mime = detect_mime(cracker.extra_info().img_data.get(), cracker.extra_info().img_len);
         if(!write_tag(album, title, artists,
-                      cracker.extra_info().img_data.get(), cracker.extra_info().img_len, "image/jpeg",
+                      cracker.extra_info().img_data.get(), cracker.extra_info().img_len, cover_mime,
                       out_path))
         {
             std::cerr << msg_prefix << "cannot write metadata" << std::endl;

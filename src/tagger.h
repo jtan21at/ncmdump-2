@@ -17,5 +17,5 @@ bool write_tag(const std::string& album,
                const std::vector<std::string>& artists,
                const void* img_data,
                std::size_t img_len,
-               const std::string& img_mime,
+               std::string_view img_mime,
                const fs::path& audio_path);

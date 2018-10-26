@@ -14,7 +14,7 @@ bool write_tag(const std::string& album,
                const std::vector<std::string>& artists,
                const void* img_data,
                std::size_t img_len,
-               const std::string& img_mime,
+               std::string_view img_mime,
                const fs::path& audio_path)
 {
     if(auto audio_ext = audio_path.extension(); audio_ext == ".flac")
@@ -33,7 +33,7 @@ bool write_tag(const std::string& album,
 
         flac_file.removePictures();
         auto front_cover = new TagLib::FLAC::Picture; // DO NOT USE SMART PTR!
-        front_cover->setMimeType(img_mime);
+        front_cover->setMimeType(img_mime.data());
         front_cover->setType(TagLib::FLAC::Picture::Type::FrontCover);
         if(img_len > std::numeric_limits<unsigned int>::max())
             throw std::runtime_error("[write_tag]: img_len is too big");
@@ -51,7 +51,7 @@ bool write_tag(const std::string& album,
         tag->setTitle(TagLib::String{title, TagLib::String::Type::UTF8});
 
         auto pic_frame = new TagLib::ID3v2::AttachedPictureFrame; // DO NOT USE SMART PTR!
-        pic_frame->setMimeType(img_mime);
+        pic_frame->setMimeType(img_mime.data());
         pic_frame->setType(TagLib::ID3v2::AttachedPictureFrame::Type::FrontCover);
         if(img_len > std::numeric_limits<unsigned int>::max())
             throw std::runtime_error("[write_tag]: img_len is too big");
