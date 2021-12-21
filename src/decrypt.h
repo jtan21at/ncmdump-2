@@ -7,7 +7,7 @@
 
 #include <json/json.h>
 
-struct extra_info
+struct extra_info_t
 {
     std::unique_ptr<char[]> img_data;
     std::uint32_t img_len;
@@ -23,7 +23,7 @@ private:
     std::unique_ptr<std::uint8_t[]> dp_box;
     std::ifstream d_ifs;
     Json::Value d_meta;
-    extra_info d_extra;
+    extra_info_t d_extra;
 
 private:
     void prepare();
